@@ -1,0 +1,49 @@
+employee(1  , bob    ,boss).
+employee(2  , mary   ,chief-accountant).
+employee(3  , john   ,accountant).
+employee(4  , sameer ,chief-programmer).
+employee(5  , lilian ,programmer).
+employee(6  , li     ,technician).
+employee(7  , fred   ,sales).
+employee(8  , brenda ,sales).
+employee(9  , miki   ,project-management).
+employee(10 , albert ,technician).
+
+boss(2  , 1).
+boss(3  , 2).
+boss(4  , 1).
+boss(5  , 4).
+boss(6  , 4).
+boss(7  , 1).
+boss(8  , 7).
+boss(9  , 1).
+boss(10 , 6).
+
+can-do-job(boss               , management).
+can-do-job(accountant         , accounting).
+can-do-job(chief-accountant   , accounting).
+can-do-job(programmer         , programming).
+can-do-job(chief-programmer   , programming).
+can-do-job(technician         , server-support).
+can-do-job(sales              , sales).
+can-do-job(project-management , project-management).
+
+job-replacement(pc-support , server-support).
+job-replacement(pc-support , programming).
+job-replacement(payroll    , accounting).
+
+job-exceptions(4, pc-support).
+
+% Rules
+
+works-for(X,Y) :- boss(EID,BID),
+                  employee(EID,X,_),
+                  employee(BID,Y,_).
+works-for(X,Y) :- works-for(X,Z),
+                  works-for(Z,Y).
+
+%    (<- (:works-for :employee ?x :boss ?y) (:works-for :employee ?x :boss ?z)
+%        (:works-for :employee ?z :boss ?y))
+
+
+
