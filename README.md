@@ -8,6 +8,8 @@ http://www.fogus.me/talks/
 
 http://clojure.com/blog/2012/02/03/functional-relational-programming-with-cascalog.html
 
+Datalog lua http://www.ccs.neu.edu/home/ramsdell/tools/datalog/index.html
+
 == Research
 
 * Dedalus

@@ -34,15 +34,11 @@ job-replacement(payroll    , accounting).
 
 job-exceptions(4, pc-support).
 
-% Rules
-
 directly-works-for(X,Y) :- 
    boss(EID,BID),
-   employee(EID,X,_),
-   employee(BID,Y,_).
+   employee(EID,X,Nothing),
+   employee(BID,Y,Nothing2).
 
 works-for(X,Y) :- directly-works-for(X,Y).
 works-for(X,Y) :- directly-works-for(X,Z),
                   works-for(Z,Y).
-
-test(X) :- not(test(X)).
