@@ -1,12 +1,12 @@
 employee(1  , bob    ,boss).
-employee(2  , mary   ,chief-accountant).
+employee(2  , mary   ,chief_accountant).
 employee(3  , john   ,accountant).
-employee(4  , sameer ,chief-programmer).
+employee(4  , sameer ,chief_programmer).
 employee(5  , lilian ,programmer).
 employee(6  , li     ,technician).
 employee(7  , fred   ,sales).
 employee(8  , brenda ,sales).
-employee(9  , miki   ,project-management).
+employee(9  , miki   ,project_management).
 employee(10 , albert ,technician).
 
 boss(2  , 1).
@@ -19,30 +19,30 @@ boss(8  , 7).
 boss(9  , 1).
 boss(10 , 6).
 
-can-do-job(boss               , management).
-can-do-job(accountant         , accounting).
-can-do-job(chief-accountant   , accounting).
-can-do-job(programmer         , programming).
-can-do-job(chief-programmer   , programming).
-can-do-job(technician         , server-support).
-can-do-job(sales              , sales).
-can-do-job(project-management , project-management).
+can_do_job(boss               , management).
+can_do_job(accountant         , accounting).
+can_do_job(chief_accountant   , accounting).
+can_do_job(programmer         , programming).
+can_do_job(chief_programmer   , programming).
+can_do_job(technician         , server_support).
+can_do_job(sales              , sales).
+can_do_job(project_management , project_management).
 
-job-replacement(pc-support , server-support).
-job-replacement(pc-support , programming).
-job-replacement(payroll    , accounting).
+job_replacement(pc_support , server_support).
+job_replacement(pc_support , programming).
+job_replacement(payroll    , accounting).
 
-job-exceptions(4, pc-support).
+job_exceptions(4, pc_support).
 
 % Rules
 
-directly-works-for(X,Y) :- 
+directly_works_for(X,Y) :- 
    boss(EID,BID),
    employee(EID,X,_),
    employee(BID,Y,_).
 
-works-for(X,Y) :- directly-works-for(X,Y).
-works-for(X,Y) :- directly-works-for(X,Z),
-                  works-for(Z,Y).
+works_for(X,Y) :- directly_works_for(X,Y).
+works_for(X,Y) :- directly_works_for(X,Z),
+                  works_for(Z,Y).
 
 test(X) :- not(test(X)).

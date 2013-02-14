@@ -24,6 +24,10 @@ Datalog lua http://www.ccs.neu.edu/home/ramsdell/tools/datalog/index.html
   * Rules
   * Queries
   * Workplan
+* Datalog vs Prolog
+  * Termination
+  * Possibilities
+  * Negation
  
 == Questions
 
