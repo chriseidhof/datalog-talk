@@ -36,14 +36,11 @@ job-exceptions(4, pc-support).
 
 % Rules
 
-works-for(X,Y) :- boss(EID,BID),
-                  employee(EID,X,_),
-                  employee(BID,Y,_).
-works-for(X,Y) :- works-for(X,Z),
+directly-works-for(X,Y) :- 
+   boss(EID,BID),
+   employee(EID,X,_),
+   employee(BID,Y,_).
+
+works-for(X,Y) :- directly-works-for(X,Y).
+works-for(X,Y) :- directly-works-for(X,Z),
                   works-for(Z,Y).
-
-%    (<- (:works-for :employee ?x :boss ?y) (:works-for :employee ?x :boss ?z)
-%        (:works-for :employee ?z :boss ?y))
-
-
-

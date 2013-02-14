@@ -26,3 +26,4 @@ http://clojure.com/blog/2012/02/03/functional-relational-programming-with-cascal
 == Questions
 
 * Why does the prolog example not terminate?
+  http://cs.union.edu/~striegnk/learn-prolog-now/html/node29.html
