@@ -10,6 +10,12 @@ http://clojure.com/blog/2012/02/03/functional-relational-programming-with-cascal
 
 Datalog lua http://www.ccs.neu.edu/home/ramsdell/tools/datalog/index.html
 
+Evaluation:
+
+http://www.cs.cmu.edu/~fp/courses/lp/lectures/26-datalog.pdf
+http://webdam.inria.fr/Alice/pdfs/Chapter-12.pdf
+http://webdam.inria.fr/Alice/pdfs/Chapter-13.pdf
+
 == Research
 
 * Dedalus
@@ -19,15 +25,24 @@ Datalog lua http://www.ccs.neu.edu/home/ramsdell/tools/datalog/index.html
 == Talk outline?
 
 * Datalog
-  * Schema definition (only in Clojure, not neccessary in Prolog)
-  * State facts
+  * Introduction
+  * Facts
   * Rules
   * Queries
-  * Workplan
 * Datalog vs Prolog
   * Termination
-  * Possibilities
   * Negation
+  * Limitations
+* Implementations in other languages 
+  * General
+      * Stratification
+      * Bottom-up
+      * Efficiency?
+  * Lua
+  * Clojure
+    * Schema definition (only in Clojure, not neccessary in Prolog)
+    * Workplan
+  * ?
  
 == Questions
 
