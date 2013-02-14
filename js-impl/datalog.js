@@ -39,6 +39,7 @@ function query(arr,result) {
       }
     }
   }
+  // TODO: make sure it's fixpoint
   return result;
 }
 
@@ -53,13 +54,28 @@ function evaluateClause(clause,result) {
 
   // TODO Better name
   var finalBindings = match(variableBindingsPerGoal);
-
+  // for each final binding, 
   return [];
 }
 
 // todo better name
+//
+
+// INPUT: variableBindings per goal
+// OUTPUT: all the variables should be matched up per goal.
 function match(variableBindingsPerGoal) {
 
+  for(var i = 0; i < variableBindingsPerGoal[0].length; i++) {
+    var bindings = variableBindingsPerGoal[0][i];
+    for(var j = 1; j < variableBindingsPerGoal.length; j++) {
+      var bindingsInOtherGoal = variableBindingsPerGoal[j];
+      for(var k = 0; k < bindingsInOtherGoal.length; k++) {
+        if(unifyHashMaps(bindings,bindingsInOtherGoal[k])) {
+          // TODO
+        }
+      }
+    }
+  }
 }
 
 function evaluateGoal(goal,result) {
