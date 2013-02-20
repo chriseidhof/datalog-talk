@@ -31,22 +31,23 @@ function buildDatabase(facts, rules) {
 }
 
 function addRule(facts, rule) {
-  var newFacts = _.union(facts, ruleAsFact(facts, rule));
+  var newFacts = _.union(facts, ruleAsFacts(facts, rule));
   return _.uniq(newFacts, false, JSON.stringify);
 }
 
-function ruleAsFact(facts, rule) {
-  return _.map(doRule(facts, rule), _.partial(substitute, rule[0]))
+function ruleAsFacts(facts, rule) {
+  var allPossibleBindings = generateBindings(facts, rule);
+  return _.map(allPossibleBindings, _.partial(substitute, rule[0]))
 }
 
-function doRule(facts, rule) {
+function generateBindings(facts, rule) {
   var goals = _.map(_.rest(rule), _.partial(evalQuery, facts));
   return _.reduce(_.rest(goals), unifyBindingArrays, _.first(goals));
 }
 
-function unifyBindingArrays(b1, b2) {
-  return _.flatten(_.map(b1, function(binding) {
-    return _.compact(_.map(b2, _.partial(unifyBindings, binding)))    
+function unifyBindingArrays(arr1, arr2) {
+  return _.flatten(_.map(arr1, function(bindings) {
+    return _.compact(_.map(arr2, _.partial(unifyBindings, bindings)))
   }))
 }
 
@@ -83,6 +84,14 @@ var rules = [
                            ["ancestor", "Z", "Y"]]
 ]
 
-var query = ["ancestor", "carol", "Y"]
+function assertQuery(query, result) {
+  console.assert(_.isEqual(answerQuery(facts, rules, query), result))
+}
 
-console.log(answerQuery(facts, rules, query));
+assertQuery(["ancestor", "carol", "Y"], [{"Y": "dennis"},
+                                         {"Y": "david"}]);
+
+assertQuery(["ancestor", "X", "carol"], [{"X": "bob"},
+                                         {"X": "alice"}]);
+
+console.log(answerQuery(facts, rules, ["ancestor", "X", "Y"]));
