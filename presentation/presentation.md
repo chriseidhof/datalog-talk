@@ -1,147 +1,171 @@
 OMeta
 =
 
-  * Chris Eidhof
+  * Frederic Kettelhoit / Chris Eidhof
   * Berlin Compiler Meet
-  * December 11th, 2012
+  * March 18, 2013
 
 !
 
-What is OMeta?
+Datalog
 =
 
-* PEG
-* OO
-* Host language
+* Declarative
+* Deductive databases
+* Subset of Prolog
 
 !
 
-History
+Facts
 =
 
-* Meta-II
-* VPRI / Fonc / Steps
+    parent(bill,mary).
+    parent(mary,john).
+    male(bill).
+    curling-team(bill,mary,john,tom).
 
 !
 
-Example
+
+Rules
 =
 
-    ometa E {
-      num = digit+,
-      fac = fac '*' num
-          | fac '/' num
-          | num,
-      exp = exp '+' fac
-          | exp '-' fac
-          | fac
-    } 
+    ancestor(X,Y) :- parent(X,Y).
+    ancestor(X,Y) :- parent(X,Z),ancestor(Z,Y).
+
+* `X` is an ancestor of `Y` __if__ `X` is the parent of `Y`, __or__:
+* `X` is an ancestor of `Y` __if__ `X` is the parent of `Z` __and__ `Z` is an
+ancestor of `Y`.
 
 !
 
-Example (evaluation)
+The first rule of datalog
 =
 
-    ometa E {
-      num = digit+:xs -> parseInt(xs.join('')),
-      fac = fac:x '*' num:y -> (x * y)
-          | fac:x '/' num:y -> (x / y)
-          | num,
-      exp = exp:x '+' fac:y -> (x + y)
-          | exp:x '-' fac:y -> (x - y)
-          | fac
-    } 
+_Every variable in the head of the clause needs to appear at least once
+in the body of the clause._
+
+Here's some invalid datalog:
+
+<code class="red">
+
+   foo(X) :- ancestor(A,B).
+
+</code>
+
+Now `foo` can be satisfied for any `X`. But how to find the possible
+values?
 
 !
 
-Example (AST building)
+More rules
 =
+    family(X,Y) :- ancestor(X,Y).
+    family(X,Y) :- family(Y,X).
 
-    ometa CalcParser {
-      number = digit+:xs -> parseInt(xs.join('')),
-      exp  = exp:x '+' mul:y  -> ['add', x, y]
-           | exp:x '-' mul:y  -> ['sub', x, y]
-           | mul,
-      mul  = mul:x '*' prim:y -> ['mul', x, y]
-           | mul:x '/' prim:y -> ['div', x, y]
-           | prim,
-      prim = '(' expr:x ')'           -> x
-           | number:n                 -> ['num', n]
-    }
+    p(X) :- q(X).
+    q(X) :- p(X).
 
-    x = CalcParser.matchAll("100*3+7","exp")
-    x
+Everything terminates. Always.
 
 !
 
-Example (AST Evaluation)
+Queries
 =
 
-    ometa CalcInterpreter {
-      i = ['num' anything:x]        -> x
-        | ['add' i:x i:y] -> (x + y)
-        | ['sub' i:x i:y] -> (x - y)
-        | ['mul' i:x i:y] -> (x * y)
-        | ['div' i:x i:y] -> (x / y)
-    }
+    ?- family(bill,X).
 
-    CalcInterpreter.match(x,"i")
+Returns a list of all the people `bill` is related to.
 
 !
 
-Grammar
+
+Bottom-up evaluation
 =
 
-  * Sequence
-  * Prioritized choice
-  * Zero or more repetitions
-  * One or more repetitions
-  * Negation
-  * Application
-  * Character literals
+Step 1
+
+    parent(bill,mary).
+    parent(mary,john).
+    ancestor(X,Y) :- parent(X,Y).
+    ancestor(X,Y) :- parent(X,Z),ancestor(Z,Y).
 
 !
 
-Rules are methods
+Bottom-up evaluation
 =
 
-  (See Web Inspector)
+Step 2
+
+    parent(bill,mary).
+    parent(mary,john).
+    ancestor(X,Y) :- parent(X,Y).
+    ancestor(X,Y) :- parent(X,Z),ancestor(Z,Y).
+    ancestor(bill,mary).
+    ancestor(mary,john).
 
 !
 
-Rules can be parameterized
+Bottom-up evaluation
 =
 
-    token t = spaces t:x -> t
-    for = token "for"
+Step 3
+
+    parent(bill,mary).
+    parent(mary,john).
+    ancestor(X,Y) :- parent(X,Y).
+    ancestor(X,Y) :- parent(X,Z),ancestor(Z,Y).
+    ancestor(bill,mary).
+    ancestor(mary,john).
+    ancestor(bill,john).
+!
+
+Extension: `not`
+=
+
+    female(X) :- not(male(X))
+
+But there is a problem. How do we find `X`?
 
 !
 
-Higher-order rules
-=
-  Rules that take rules
-  
-    apply("for")
-    apply(t)
-
-!
-
-My implementation
+Fixing the problem
 =
 
-  * OMeta/ObjC
-  * Not self-compiling yet
-  * Tricky part: parsing ObjC
+    female(X) :- person(X), not(male(X)).
+
+* Every variable needs to appear non-negated as well.
  
 !
 
-  Awesome for language experiments: just subclass and extend a language
-
-!
-Links
+More problems with `not`
 =
 
-  * [OMeta Workspace](http://www.tinlizzie.org/ometa-js/#OMeta_Tutorial)
-  * [github.com/chriseidhof/ometa-objc](https://github.com/chriseidhof/ometa-objc)
-  * chris@eidhof.nl
-  
+    p(X) :- not(p(X)).
+
+Now we need stratification.
+
+!
+
+Implementations
+=
+
+* [Cascalog](https://github.com/nathanmarz/cascalog/wiki)
+* [Clojure Datalog](http://code.google.com/p/clojure-contrib/wiki/DatalogOverview)
+* ([Datomic](http://docs.datomic.com/tutorial.html))
+
+!
+
+Roll your own datalog
+=
+
+* Every presentation needs an implementation
+
+!
+
+More links
+= 
+
+* [http://infolab.stanford.edu/~ullman/cs345notes/cs345-1.pdf](http://infolab.stanford.edu/~ullman/cs345notes/cs345-1.pdf)
+
+!
