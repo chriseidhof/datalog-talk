@@ -143,6 +143,14 @@ More problems with `not`
 
     p(X) :- not(p(X)).
 
+Or the Barber's Paradox:
+
+    shaves(barber,X) :- male(X),
+                        not(shaves(X,X)).
+    male(barber).
+
+    ?- shaves(barber,X)
+
 Now we need stratification.
 
 !
