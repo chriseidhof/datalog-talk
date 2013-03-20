@@ -1,3 +1,5 @@
+See the presentation at http://chriseidhof.github.com/datalog-talk/presentation/Presenter.html
+
 == Links:
 
 http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-173.pdf
