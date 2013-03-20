@@ -5,7 +5,8 @@ http://fkettelhoit.github.com/bottom-up-datalog-js/docs/dl.html
 
 or the code at https://github.com/fkettelhoit/bottom-up-datalog-js
 
-== More interesting links:
+More interesting links:
+==
 
 http://www.eecs.berkeley.edu/Pubs/TechRpts/2009/EECS-2009-173.pdf
 
