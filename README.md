@@ -38,11 +38,7 @@ http://webdam.inria.fr/Alice/pdfs/Chapter-13.pdf
       * Stratification
       * Bottom-up
       * Efficiency?
-  * Lua
-  * Clojure
-    * Schema definition (only in Clojure, not neccessary in Prolog)
-    * Workplan
-  * ?
+  * Javascript
  
 == Questions
 

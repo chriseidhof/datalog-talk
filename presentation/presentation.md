@@ -1,9 +1,9 @@
-OMeta
+Datalog
 =
 
   * Frederic Kettelhoit / Chris Eidhof
   * Berlin Compiler Meet
-  * March 18, 2013
+  * March 19, 2013
 
 !
 
